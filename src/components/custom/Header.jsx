@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/dialog";
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom'; // Import Navigate
 
 function Header() {
     const [user, setUser] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [isLoggedOut, setIsLoggedOut] = useState(false); // State to track logout
 
     const login = useGoogleLogin({
         onSuccess: (codeResp) => GetUserProfile(codeResp),
@@ -36,7 +38,6 @@ function Header() {
             console.log(resp);
             localStorage.setItem('user', JSON.stringify(resp.data));
             setUser(resp.data);
-            window.location.reload();  // Reload the page to reflect changes
         });
     };
 
@@ -47,24 +48,36 @@ function Header() {
         }
     }, []);
 
+    const handleLogout = () => {
+        googleLogout();
+        localStorage.clear();
+        setUser(null);
+        setIsLoggedOut(true); // Set the state to trigger navigation
+    };
+
+    if (isLoggedOut) {
+        return <Navigate to="/" />; // Navigate to home page on logout
+    }
+
     return (
         <div className='p-3 shadow-sm flex justify-between items-center px-5'>
             <img src='/logo.svg' alt='Logo' />
             <div className='flex gap-5'>
                 {user?.name ? (
                     <div className='flex gap-5'>
+                        <a href="/create-trip">
+                        <Button variant="outline" className="rounded-4">+ Create Trip</Button>
+                        </a>
+                        <a href="/my-trips">
                         <Button variant="outline" className="rounded-4">My Trips</Button>
+                        </a>
                         <Popover>
                             <PopoverTrigger>
                                 <img src={user?.picture} className='h-[35px] w-[35px] rounded-full' alt="User Avatar" />
                             </PopoverTrigger>
                             <PopoverContent>
                                 <h2 className='cursor-pointer'
-                                    onClick={() => {
-                                        googleLogout();
-                                        localStorage.clear();
-                                        window.location.reload();
-                                    }}>Logout</h2>
+                                    onClick={handleLogout}>Logout</h2>
                             </PopoverContent>
                         </Popover>
                     </div>

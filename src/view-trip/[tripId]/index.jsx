@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'sonner';
 import InfoSection from './components/infoSection';
 import Hotels from './components/hotels';
+import Placestovisit from './components/placestovisit';
+import Footer from './components/footer';
 
 function ViewTrip() {
 
@@ -35,9 +37,9 @@ function ViewTrip() {
        {/* Recommeded Hotels */}
         <Hotels trip={trip}/>
        {/* Daily Plan */}
-
+        <Placestovisit trip={trip}/>
        {/* Footer */}
-    
+        <Footer/>
     </div>
   )     
 }
