@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner';
 import InfoSection from './components/InfoSection';
-import Hotels from './components/Hotels';
+import Hotels from './components/hotels';
 import Placestovisit from './components/Placestovisit';
 import Footer from './components/Footer';
 
