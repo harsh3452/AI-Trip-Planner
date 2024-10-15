@@ -20,7 +20,7 @@ import axios from 'axios';
 import { doc, setDoc } from "firebase/firestore";
 import { db } from '@/lib/firebase.config';
 import { useNavigate } from 'react-router-dom';
-import Customloading from '@/components/custom/customloading';
+import Customloading from '@/components/custom/Customloading';
 
 function CreateTrip() {
   const [cusloading, setcusLoading] = useState(false);
