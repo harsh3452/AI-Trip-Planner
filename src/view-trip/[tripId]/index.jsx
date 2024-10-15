@@ -4,10 +4,10 @@ import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner';
-import InfoSection from './components/infoSection';
-import Hotels from './components/hotels';
-import Placestovisit from './components/placestovisit';
-import Footer from './components/footer';
+import InfoSection from './components/InfoSection';
+import Hotels from './components/Hotels';
+import Placestovisit from './components/Placestovisit';
+import Footer from './components/Footer';
 
 function ViewTrip() {
 
