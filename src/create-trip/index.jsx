@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-import { AI_PROMPT, chatSession } from '@/service/AImodel';
+import { AI_PROMPT, chatSession } from '@/service/AIModel';
 import {
   Dialog,
   DialogContent,
