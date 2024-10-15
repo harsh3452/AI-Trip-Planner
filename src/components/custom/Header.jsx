@@ -11,17 +11,15 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom'; // Import Navigate
+import { Navigate } from 'react-router-dom';
 
 function Header() {
     const [user, setUser] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [isLoggedOut, setIsLoggedOut] = useState(false); // State to track logout
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
     const login = useGoogleLogin({
         onSuccess: (codeResp) => GetUserProfile(codeResp),
@@ -35,9 +33,9 @@ function Header() {
                 Accept: 'Application/json'
             }
         }).then((resp) => {
-            console.log(resp);
             localStorage.setItem('user', JSON.stringify(resp.data));
             setUser(resp.data);
+            setOpenDialog(false);
         });
     };
 
@@ -52,49 +50,59 @@ function Header() {
         googleLogout();
         localStorage.clear();
         setUser(null);
-        setIsLoggedOut(true); // Set the state to trigger navigation
+        setIsLoggedOut(true);
+        window.location.href = "/"; // Redirect to home
+        window.location.reload();   // Force page reload
     };
-
+    
     if (isLoggedOut) {
-        return <Navigate to="/" />; // Navigate to home page on logout
+        return <Navigate to="/" />;
     }
 
     return (
-        <div className='p-3 shadow-sm flex justify-between items-center px-5'>
-            <img src='/logo.svg' alt='Logo' />
-            <div className='flex gap-5'>
-                {user?.name ? (
-                    <div className='flex gap-5'>
-                        <a href="/create-trip">
-                        <Button variant="outline" className="rounded-4">+ Create Trip</Button>
+        <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 h-[180px]">
+            <div className="px-8 py-8 h-full">
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 backdrop-blur-md rounded-lg shadow-lg h-full p-6">
+                    <div className="flex justify-between items-center w-full">
+                        <a href="/" className="transition-transform hover:scale-105">
+                            <img src='/logo2.svg' alt='Logo' className='h-16' />
                         </a>
-                        <a href="/my-trips">
-                        <Button variant="outline" className="rounded-4">My Trips</Button>
-                        </a>
-                        <Popover>
-                            <PopoverTrigger>
-                                <img src={user?.picture} className='h-[35px] w-[35px] rounded-full' alt="User Avatar" />
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <h2 className='cursor-pointer'
-                                    onClick={handleLogout}>Logout</h2>
-                            </PopoverContent>
-                        </Popover>
+                        <div className='flex gap-5 items-center'>
+                            {user?.name ? (
+                                <div className='flex gap-5 items-center'>
+                                    <a href="/create-trip">
+                                        <Button variant="outline" className="rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors duration-300">+ Create Trip</Button>
+                                    </a>
+                                    <a href="/my-trips">
+                                        <Button variant="outline" className="rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors duration-300">My Trips</Button>
+                                    </a>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <img src={user?.picture} className='h-10 w-10 rounded-full border-2 border-purple-300 transition-transform hover:scale-110' alt="User Avatar" />
+                                        </PopoverTrigger>
+                                        <PopoverContent className="bg-white rounded-lg shadow-lg p-4">
+                                            <h2 className='cursor-pointer text-purple-700 hover:text-purple-900 transition-colors duration-300'
+                                                onClick={handleLogout}>Logout</h2>
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
+                            ) : (
+                                <Button onClick={() => setOpenDialog(true)} className="bg-purple-600 text-white hover:bg-purple-700 transition-colors duration-300">Sign In</Button>
+                            )}
+                        </div>
                     </div>
-                ) : (
-                    <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
-                )}
+                </div>
             </div>
             <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                <DialogContent>
+                <DialogContent className="bg-white/90 backdrop-blur-md rounded-lg shadow-xl p-8">
                     <DialogHeader>
-                        <DialogDescription>
-                            <img src="/logo.svg" alt="Logo" />
-                            <h2 className='font-bold text-lg mt-7'>Sign in with Google</h2>
-                            <p>Sign in to the App with Google Authentication securely</p>
+                        <DialogDescription className="space-y-6">
+                            <img src="/logo2.svg" alt="Logo" className="mx-auto h-20" />
+                            <h2 className='font-bold text-2xl text-purple-800 mt-7'>Sign in with Google</h2>
+                            <p className="text-gray-600">Sign in to the App with Google Authentication securely</p>
                             <Button
                                 onClick={login}
-                                className="w-full mt-5 flex gap-4">
+                                className="w-full mt-5 flex gap-4 items-center justify-center bg-purple-600 text-white hover:bg-purple-700 transition-colors duration-300">
                                 <FcGoogle className='h-7 w-7' />
                                 Sign in with Google
                             </Button>
