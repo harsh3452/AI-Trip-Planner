@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import InfoSection from './components/InfoSection';
 import Hotels from './components/hotels';
 import Placestovisit from './components/placestovisit';
-import Footer from './components/Footer';
+import Footer from './components/footer';
 
 function ViewTrip() {
 
